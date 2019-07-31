@@ -9,7 +9,7 @@ const MobileMaskWrapper = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 155, 155, 0.5);
+  /* background: rgba(255, 155, 155, 0.5); */
   color: white;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@ const MobileMaskWrapper = styled.div`
 
 const TopRow = styled.div`
   padding: 12px 18px;
-  background: rgba(0, 0, 0, 0.1);
+  /* background: rgba(0, 0, 0, 0.1); */
   display: flex;
   justify-content: space-between;
   align-items: center;
