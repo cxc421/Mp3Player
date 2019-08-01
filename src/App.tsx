@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import MobileMask from './components/MobileMask/MobileMask';
-import Slider from './components/Slider/Slider';
+
 import songImgSrc_1 from './assets/Jonas_A0_Rectangle_52_pattern@2x_cut.png';
 import songImgSrc_2 from './assets/embody_A0_Rectangle_50_pattern@2x.png';
 import songImgSrc_3 from './assets/coffee_A0_Path_4_pattern@2x_cut2.png';
-// import Test from './components/Test';
+import heartImgSrc from './assets/heart.png';
+import manuAddImgSrc from './assets/manu_add.png';
+import uploadImgSrc from './assets/upload.png';
+
+import MobileMask from './components/MobileMask/MobileMask';
+import Slider from './components/Slider/Slider';
+import Player from './components/Player/Player';
 
 interface ImgSrc {
   imgSrc: string;
@@ -79,15 +84,61 @@ const Content = styled.div`
   height: 100%;
 `;
 
-const Title = styled.h1`
+const PlayListName = styled.h1`
   padding: 0;
   margin: 0;
   font-size: 16px;
   font-weight: normal;
   text-align: center;
   color: white;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   margin-top: 65px;
+`;
+
+const SongName = styled.h2`
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  font-weight: normal;
+  text-align: center;
+  color: white;
+  margin-top: 26px;
+`;
+
+const ArtistName = styled.h3`
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  font-weight: normal;
+  text-align: center;
+  color: white;
+  margin-top: 12px;
+`;
+
+const BtnRow = styled.div`
+  margin-top: 26px;
+  display: flex;
+  justify-content: space-around;
+`;
+
+const CircleBtn = styled.div`
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:active {
+    transition: 0ms background;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  @media only screen and (min-width: 769px) {
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
 `;
 
 const App: React.FC = () => {
@@ -106,15 +157,36 @@ const App: React.FC = () => {
       <BackgroundTop />
       <MobileMask />
       <Content>
-        <Title>Chill hits</Title>
+        <PlayListName>Chill hits</PlayListName>
         <Slider
           imgList={songImgList}
           imgIndex={selectSongIndex}
           style={{ marginTop: 38 }}
           setImgIndex={setNewSongIndex}
         />
+        <SongName>Lost & Found</SongName>
+        <ArtistName>EMBODY</ArtistName>
+        <BtnRow>
+          <CircleBtn>
+            <img
+              src={uploadImgSrc}
+              alt=""
+              style={{ width: 16.27, marginTop: -4, marginRight: -2 }}
+            />
+          </CircleBtn>
+          <CircleBtn>
+            <img src={heartImgSrc} alt="" style={{ width: 21 }} />
+          </CircleBtn>
+          <CircleBtn>
+            <img
+              src={manuAddImgSrc}
+              alt=""
+              style={{ width: 22, marginBottom: -4, marginRight: -5 }}
+            />
+          </CircleBtn>
+        </BtnRow>
+        <Player />
       </Content>
-      {/* <Test imgIndex={selectSongIndex} setImgIndex={setNewSongIndex} /> */}
     </Container>
   );
 };
