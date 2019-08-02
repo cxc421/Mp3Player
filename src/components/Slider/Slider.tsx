@@ -9,17 +9,10 @@ interface SliderProps {
   setImgIndex: (index: number) => void;
 }
 
-interface SliderBoxProps {
-  imgSrc: string;
-  isSelect?: boolean;
-  posDiff: number;
-  size: number;
-}
-
 const SliderWrpaer = styled.div`
   position: relative;
   width: 100%;
-  background: rgba(255, 0, 0, 0.2);
+  /* background: rgba(255, 0, 0, 0.2); */
   height: calc(100% - 532px);
   /* overflow: hidden; */
 `;
