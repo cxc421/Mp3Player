@@ -1,5 +1,6 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import styled from 'styled-components';
+import SliderBox from './SliderBox';
 
 interface SliderProps {
   style?: React.CSSProperties;
@@ -12,47 +13,39 @@ interface SliderBoxProps {
   imgSrc: string;
   isSelect?: boolean;
   posDiff: number;
+  size: number;
 }
 
 const SliderWrpaer = styled.div`
   position: relative;
   width: 100%;
-  /* background: rgba(255, 0, 0, 0.2); */
-  perspective: 1000px;
-  transform-style: preserve-3d;
-  height: 280px;
-  overflow: hidden;
+  background: rgba(255, 0, 0, 0.2);
+  height: calc(100% - 532px);
+  /* overflow: hidden; */
 `;
 
-const SliderBox = styled.div<SliderBoxProps>`
-  width: 280px;
-  height: 280px;
-  background: black;
-  transform: translate3d(
-    ${props => props.posDiff * 380}px,
-    0,
-    ${props => (props.posDiff === 0 ? 0 : -400)}px
-  );
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  background-image: url(${prop => prop.imgSrc});
-  background-size: cover;
-  background-position: center center;
-  transition: all 0.4s;
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    opacity: ${props => (props.isSelect ? 0 : 0.7)};
-    transition: all 0.4s;
-  }
-`;
+function useSliderBoxSize(wrappperRef: React.RefObject<HTMLDivElement>) {
+  const [size, setSize] = useState(280);
+  const updateSize = React.useCallback(() => {
+    const wrapper = wrappperRef.current;
+    if (!wrapper) return;
+
+    const { clientHeight, clientWidth } = wrapper;
+    const newSize = Math.min(clientHeight, clientWidth - 95);
+    setSize(newSize);
+    console.log({ newSize });
+  }, [setSize, wrappperRef]);
+
+  React.useEffect(() => {
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => {
+      window.removeEventListener('resize', updateSize);
+    };
+  }, [updateSize]);
+
+  return size;
+}
 
 const Slider: React.FC<SliderProps> = ({
   style,
@@ -63,6 +56,8 @@ const Slider: React.FC<SliderProps> = ({
   const offset = 50;
   const [isMobile, setIsMobile] = React.useState(false);
   const [start, setStart] = React.useState<number | null>(null);
+  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const size = useSliderBoxSize(wrapperRef);
 
   function onMouseDown(event: React.MouseEvent) {
     if (isMobile) return;
@@ -119,6 +114,7 @@ const Slider: React.FC<SliderProps> = ({
 
   return (
     <SliderWrpaer
+      ref={wrapperRef}
       style={style}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
@@ -132,6 +128,7 @@ const Slider: React.FC<SliderProps> = ({
           imgSrc={imgSrc}
           isSelect={index === imgIndex}
           posDiff={index - imgIndex}
+          size={size}
         />
       ))}
     </SliderWrpaer>
