@@ -26,7 +26,7 @@ function useSliderBoxSize(wrappperRef: React.RefObject<HTMLDivElement>) {
     const { clientHeight, clientWidth } = wrapper;
     const newSize = Math.min(clientHeight, clientWidth - 95);
     setSize(newSize);
-    console.log({ newSize });
+    // console.log({ newSize });
   }, [setSize, wrappperRef]);
 
   React.useEffect(() => {

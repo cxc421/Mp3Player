@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface Percent {
@@ -7,6 +7,7 @@ interface Percent {
 
 interface BarProps extends Percent {
   style?: React.CSSProperties;
+  onChange: (percent: number) => void;
 }
 
 const Wrapper = styled.div`
@@ -14,7 +15,7 @@ const Wrapper = styled.div`
   height: 16px;
 `;
 
-const Rect = styled.div<Percent>`
+const Rect = styled.div`
   position: absolute;
   height: 3px;
   background: white;
@@ -22,18 +23,21 @@ const Rect = styled.div<Percent>`
   left: 0;
   width: 100%;
   transform: translateY(-50%);
+`;
 
-  &::after {
-    content: '';
-    display: block;
-    height: 100%;
-    width: ${props => props.percent}%;
-    background-image: linear-gradient(
-      to right,
-      rgb(102, 126, 234),
-      rgb(217, 175, 217)
-    );
-  }
+const RectColor = styled.div`
+  position: absolute;
+  height: 3px;
+  background: white;
+  top: 50%;
+  left: 0;
+  width: 0;
+  transform: translateY(-50%);
+  background-image: linear-gradient(
+    to right,
+    rgb(102, 126, 234),
+    rgb(217, 175, 217)
+  );
 `;
 
 const CircleWrapper = styled.div`
@@ -44,9 +48,9 @@ const CircleWrapper = styled.div`
   left: 0;
 `;
 
-const Circle = styled.div<Percent>`
+const Circle = styled.div`
   position: absolute;
-  left: ${props => props.percent}%;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 16px;
@@ -66,12 +70,60 @@ const Circle = styled.div<Percent>`
   }
 `;
 
-const Bar: React.FC<BarProps> = ({ style, percent }) => {
+const Bar: React.FC<BarProps> = ({ style, percent, onChange }) => {
+  const rangerRef = useRef<HTMLDivElement>(null);
+  const [moving, setMoving] = useState(false);
+  const percentStr = `${percent}%`;
+
+  if (percent < 0 || percent > 100) {
+    throw new Error('Ranger: percent oveflow! percent=' + percent);
+  }
+
+  useEffect(() => {
+    const onDocumentMouseMove = (event: MouseEvent) => {
+      const ranger = rangerRef.current;
+      if (!ranger) return;
+      const rect = ranger.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const width = rect.width;
+      const percent = (x * 100) / width;
+
+      onChange(percent);
+    };
+
+    const onDocumentMouseUp = () => {
+      setMoving(false);
+    };
+
+    if (moving) {
+      document.addEventListener('mousemove', onDocumentMouseMove);
+      document.addEventListener('mouseup', onDocumentMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', onDocumentMouseMove);
+      document.removeEventListener('mouseup', onDocumentMouseUp);
+    };
+  }, [rangerRef, moving, onChange]);
+
+  function onMouseDown(event: React.MouseEvent) {
+    const ranger = rangerRef.current;
+    if (!ranger) return;
+    const rect = ranger.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const width = rect.width;
+    const percent = (x * 100) / width;
+
+    onChange(percent);
+    setMoving(true);
+  }
+
   return (
-    <Wrapper style={style}>
-      <Rect percent={percent} />
+    <Wrapper style={style} onMouseDown={onMouseDown} ref={rangerRef}>
+      <Rect />
+      <RectColor style={{ width: percentStr }} />
       <CircleWrapper>
-        <Circle percent={percent} />
+        <Circle style={{ left: percentStr }} />
       </CircleWrapper>
     </Wrapper>
   );

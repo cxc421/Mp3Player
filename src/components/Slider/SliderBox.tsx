@@ -22,7 +22,7 @@ const Wrapper = styled.div<WrapperProps>`
   margin: auto;
   background-size: cover;
   background-position: center center;
-  transition: transform 0.4s;
+  transition: transform 0.4s, opacity 0.4s;
   &::after {
     content: '';
     position: absolute;
@@ -32,7 +32,7 @@ const Wrapper = styled.div<WrapperProps>`
     height: 100%;
     background: black;
     opacity: ${props => (props.isSelect ? 0 : 0.7)};
-    transition: transform 0.4s;
+    transition: transform 0.4s, opacity 0.4s;
   }
 `;
 
@@ -49,14 +49,11 @@ const SliderBox: React.FC<SliderBoxProps> = ({
     transform: `translateX(${(size + 20) * posDiff}px) scale(${
       posDiff !== 0 ? 0.71429 : 1
     })`,
-    backgroundImage: `url(${imgSrc})`
+    backgroundImage: `url(${imgSrc})`,
+    opacity: Math.abs(posDiff) > 1 ? 0 : 1
   };
 
-  return (
-    <Wrapper isSelect={isSelect} style={style}>
-      box
-    </Wrapper>
-  );
+  return <Wrapper isSelect={isSelect} style={style} />;
 };
 
 export default React.memo(SliderBox);

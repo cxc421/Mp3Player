@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import {
+  MdPlayArrow,
   MdPause,
   MdRepeat,
   MdShuffle,
@@ -9,9 +10,22 @@ import {
 } from 'react-icons/md';
 import AnlyzerGraph from './AnalyzerGraph';
 import Bar from './Bar';
+import { secToTimeText } from '../../helpers/time';
 
 interface PlayerProps {
   style?: React.CSSProperties;
+  src: string;
+  loop: boolean;
+  randomPlay: boolean;
+  toggleRandomPlay: () => void;
+  toggleLoop: () => void;
+  toNextSong: () => void;
+  toPrevSong: () => void;
+}
+
+enum PlayerStatus {
+  Play,
+  Pause
 }
 
 const Wrapper = styled.div`
@@ -34,6 +48,7 @@ const TimeArea = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 16px;
+  margin-top: 2px;
   color: white;
   font-size: 12px;
 `;
@@ -62,25 +77,122 @@ const PuasePlayBtnOuter = styled.div`
   }
 `;
 
-const Player: React.FC<PlayerProps> = ({ style }) => {
+const Player: React.FC<PlayerProps> = ({
+  style,
+  src,
+  toNextSong,
+  toPrevSong,
+  loop,
+  toggleLoop,
+  randomPlay,
+  toggleRandomPlay
+}) => {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [playIfDurationChange, setPlayIfDurationChange] = useState(false);
+  const [status, setStatus] = useState(PlayerStatus.Pause);
+  const [curSec, setCurSec] = useState(0);
+  const [totalSec, setTotalSec] = useState(0);
+  const percent = totalSec > 0 ? 100 * (curSec / totalSec) : 0;
+  const curTimeText = secToTimeText(Math.round(curSec));
+  const totalTimeText = secToTimeText(Math.round(totalSec));
+
+  function onAudioPlay() {
+    setStatus(PlayerStatus.Play);
+  }
+
+  function onAudioPause() {
+    setStatus(PlayerStatus.Pause);
+  }
+
+  function onClickIcon() {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.play();
+      setPlayIfDurationChange(true);
+    } else {
+      audio.pause();
+      setPlayIfDurationChange(false);
+    }
+  }
+
+  function onAudioDurationChange() {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    setTotalSec(audio.duration);
+    if (playIfDurationChange && audio.duration > 0) {
+      audio.play();
+    }
+  }
+
+  function onAudioTimeUpdate() {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    setCurSec(audio.currentTime);
+  }
+
+  function onRangerChange(newPercent: number) {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const newCurTime = (totalSec * newPercent) / 100;
+    if (newCurTime <= totalSec && newCurTime >= 0) {
+      audio.currentTime = newCurTime;
+    }
+  }
+
+  function onAudionEnded() {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    toNextSong();
+  }
+
   return (
     <Wrapper style={style}>
+      <audio
+        src={src}
+        ref={audioRef}
+        onPlay={onAudioPlay}
+        onPause={onAudioPause}
+        onDurationChange={onAudioDurationChange}
+        onTimeUpdate={onAudioTimeUpdate}
+        onEnded={onAudionEnded}
+      />
       <AnlyzerArea>
         <AnlyzerGraph />
       </AnlyzerArea>
-      <Bar style={{ marginTop: 40 }} percent={50} />
+      <Bar
+        style={{ marginTop: 40 }}
+        percent={percent}
+        onChange={onRangerChange}
+      />
       <TimeArea>
-        <span>02:35</span>
-        <span>03:24</span>
+        <span>{curTimeText}</span>
+        <span>{totalTimeText}</span>
       </TimeArea>
       <BtnArea>
-        <MdRepeat size={24} />
-        <MdSkipPrevious size={36} />
-        <PuasePlayBtnOuter>
-          <MdPause />
+        <MdRepeat
+          size={24}
+          style={{
+            color: loop ? '#00c2ff' : 'white'
+          }}
+          onClick={toggleLoop}
+        />
+        <MdSkipPrevious size={36} onClick={toPrevSong} />
+        <PuasePlayBtnOuter onClick={onClickIcon}>
+          {status === PlayerStatus.Pause ? <MdPlayArrow /> : <MdPause />}
         </PuasePlayBtnOuter>
-        <MdSkipNext size={36} />
-        <MdShuffle size={24} />
+        <MdSkipNext size={36} onClick={toNextSong} />
+        <MdShuffle
+          size={24}
+          style={{
+            color: randomPlay ? '#00c2ff' : 'white'
+          }}
+          onClick={toggleRandomPlay}
+        />
       </BtnArea>
     </Wrapper>
   );

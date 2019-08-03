@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import songImgSrc_1 from './assets/Jonas_A0_Rectangle_52_pattern@2x_cut.png';
-import songImgSrc_2 from './assets/embody_A0_Rectangle_50_pattern@2x.png';
-import songImgSrc_3 from './assets/coffee_A0_Path_4_pattern@2x_cut2.png';
-import heartImgSrc from './assets/heart.png';
-import manuAddImgSrc from './assets/manu_add.png';
-import uploadImgSrc from './assets/upload.png';
+import { playList as defaultPlayList } from './PlayList';
+
+// import songImgSrc_1 from './assets/imgs/Jonas_A0_Rectangle_52_pattern@2x_cut.png';
+// import songImgSrc_2 from './assets/imgs/embody_A0_Rectangle_50_pattern@2x.png';
+// import songImgSrc_3 from './assets/imgs/coffee_A0_Path_4_pattern@2x_cut2.png';
+import heartImgSrc from './assets/imgs/heart.png';
+import manuAddImgSrc from './assets/imgs/manu_add.png';
+import uploadImgSrc from './assets/imgs/upload.png';
 
 import MobileMask from './components/MobileMask/MobileMask';
 import Slider from './components/Slider/Slider';
 import Player from './components/Player/Player';
+
+type PlayListType = typeof defaultPlayList;
 
 interface ImgSrc {
   imgSrc: string;
@@ -142,18 +146,80 @@ const CircleBtn = styled.div`
 `;
 
 const App: React.FC = () => {
+  const [playList, setPlayList] = useState(Array.from(defaultPlayList));
+  const [loop, setLopp] = useState(false);
+  const [randomPlay, setRandomPlay] = useState(false);
   const [selectSongIndex, setSelectSongIndex] = useState(1);
-  const songImgList = [songImgSrc_1, songImgSrc_2, songImgSrc_3];
+  const song = playList[selectSongIndex];
+  const songImgList = React.useMemo(() => playList.map(list => list.imgSrc), [
+    playList
+  ]);
 
   function setNewSongIndex(index: number) {
-    if (index >= 0 && index < songImgList.length) {
+    if (index >= 0 && index < playList.length) {
       setSelectSongIndex(index);
+    }
+  }
+
+  function toNextSong() {
+    let nextIndex = selectSongIndex + 1;
+    if (nextIndex < playList.length) {
+      setSelectSongIndex(nextIndex);
+    } else if (loop) {
+      setSelectSongIndex(0);
+    }
+  }
+
+  function toPrevSong() {
+    let nextIndex = selectSongIndex - 1;
+    if (nextIndex >= 0) {
+      setSelectSongIndex(nextIndex);
+    } else if (loop) {
+      setSelectSongIndex(playList.length - 1);
+    }
+  }
+
+  function toggleLoop() {
+    setLopp(!loop);
+  }
+
+  function toggleRandomPlay() {
+    const newRandomPlay = !randomPlay;
+    setRandomPlay(newRandomPlay);
+
+    if (newRandomPlay) {
+      const copyPlayList = Array.from(defaultPlayList);
+      const newPlayList: PlayListType = [];
+      // first put current song to first index
+      const [curSong] = copyPlayList.splice(selectSongIndex, 1);
+      newPlayList.push(curSong);
+      // then random retive song
+      while (copyPlayList.length > 0) {
+        const songIndex = Math.floor(Math.random() * copyPlayList.length);
+        const [song] = copyPlayList.splice(songIndex, 1);
+        newPlayList.push(song);
+      }
+      // set new playlsit & update songIndex
+      setPlayList(newPlayList);
+      setSelectSongIndex(0);
+      console.log('Now is random:');
+      console.log(newPlayList);
+    } else {
+      const newPlayList = Array.from(defaultPlayList);
+      const curSong = playList[selectSongIndex];
+      const newIndex = newPlayList.findIndex(song => song.id === curSong.id);
+      // set new playlsit & update songIndex
+      setPlayList(newPlayList);
+      setSelectSongIndex(newIndex);
+      console.log('Now is normal playlsit');
+      console.log(newPlayList);
+      console.log({ newIndex });
     }
   }
 
   return (
     <Container>
-      <BackgroundMain imgSrc={songImgList[selectSongIndex]} />
+      <BackgroundMain imgSrc={playList[selectSongIndex].imgSrc} />
       <BackgroundTop />
       <MobileMask />
       <Content>
@@ -164,8 +230,8 @@ const App: React.FC = () => {
           style={{ marginTop: 38 }}
           setImgIndex={setNewSongIndex}
         />
-        <SongName>Lost & Found</SongName>
-        <ArtistName>EMBODY</ArtistName>
+        <SongName>{song.musicName}</SongName>
+        <ArtistName>{song.artist}</ArtistName>
         <BtnRow>
           <CircleBtn>
             <img
@@ -185,7 +251,15 @@ const App: React.FC = () => {
             />
           </CircleBtn>
         </BtnRow>
-        <Player />
+        <Player
+          src={song.musicSrc}
+          toNextSong={toNextSong}
+          toPrevSong={toPrevSong}
+          loop={loop}
+          toggleLoop={toggleLoop}
+          randomPlay={randomPlay}
+          toggleRandomPlay={toggleRandomPlay}
+        />
       </Content>
     </Container>
   );
