@@ -1,44 +1,27 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# F2E2019 - MP3 Player
 
-## Available Scripts
+<div>
+  <a style="font-size:25px; cursor: default;" target="_blank" href="https://cxc421.github.io/Mp3Player/">Demo</a>
+</div>
 
-In the project directory, you can run:
+此專案是參加六角學院的 <a href="https://challenge.thef2e.com/">F2E Challenge</a> 所做的，參考的設計稿連結<a href="https://challenge.thef2e.com/user/2043?schedule=3228#works-3228">在此</a>。
 
-### `npm start`
+## 功能
+ > 音樂控制
+  * ( 拖動圖片 ) 切換下一首 / 切換上一首
+  * 拖動音樂時間軸
+  * 暫停/開始切換
+  * <span style="text-decoration:line-through">音量控制</span>
+  * 單曲重複播放 / 隨機播放 / 重複播放
+ > 廣告機制
+  * 隨機在音樂結束切換時，顯示佔板廣告，引導訂閱
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 心得
+第一次認真實作手機版網頁，花了不少時間研究 `touch event` 跟 `mouse event` 混用的效果以及用 HTML5 原生 API 實作 Ａnalyzer Bar。出來的效果還是蠻滿意的。
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+因為時間的關係目前只完成設計師提供的一頁版型，也還在思考從目前版型跳到另一個版型的轉場動畫怎樣做比較好，之後有時間可能會在補完。
 
-### `npm test`
+## 版權聲明
+此專案使用了一些網路上下載的音樂與圖片，純粹為了個人練習使用。如有侵權煩請告知。
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
