@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/Mp3Player/static/css/main.d31f2474.chunk.css",
+    "main.js": "/Mp3Player/static/js/main.619382f4.chunk.js",
+    "main.js.map": "/Mp3Player/static/js/main.619382f4.chunk.js.map",
+    "runtime~main.js": "/Mp3Player/static/js/runtime~main.ce50c9f3.js",
+    "runtime~main.js.map": "/Mp3Player/static/js/runtime~main.ce50c9f3.js.map",
+    "static/js/2.170e971d.chunk.js": "/Mp3Player/static/js/2.170e971d.chunk.js",
+    "static/js/2.170e971d.chunk.js.map": "/Mp3Player/static/js/2.170e971d.chunk.js.map",
+    "index.html": "/Mp3Player/index.html",
+    "precache-manifest.7651cab3b9b0fc8889dffc8963997f7c.js": "/Mp3Player/precache-manifest.7651cab3b9b0fc8889dffc8963997f7c.js",
+    "service-worker.js": "/Mp3Player/service-worker.js",
+    "static/css/main.d31f2474.chunk.css.map": "/Mp3Player/static/css/main.d31f2474.chunk.css.map",
+    "static/media/Embody - Dreamin (ft. Camden Cox).mp3": "/Mp3Player/static/media/Embody - Dreamin (ft. Camden Cox).abc0b1c0.mp3",
+    "static/media/Embody - I Miss You.mp3": "/Mp3Player/static/media/Embody - I Miss You.75035dee.mp3",
+    "static/media/Embody - Without You (feat. Jack Hawitt).mp3": "/Mp3Player/static/media/Embody - Without You (feat. Jack Hawitt).a61100ed.mp3",
+    "static/media/Jonas Brothers - Happiness Begins.mp3": "/Mp3Player/static/media/Jonas Brothers - Happiness Begins.956766f6.mp3",
+    "static/media/Jonas_A0_Rectangle_52_pattern@2x_cut.png": "/Mp3Player/static/media/Jonas_A0_Rectangle_52_pattern@2x_cut.094bc70c.png",
+    "static/media/index.css": "/Mp3Player/static/media/SF-Pro-Text-Semibold.e04a1703.ttf",
+    "static/media/[Clean] Joel Adams - Coffee.mp3": "/Mp3Player/static/media/[Clean] Joel Adams - Coffee.468fad7e.mp3",
+    "static/media/ad.png": "/Mp3Player/static/media/ad.c9a08561.png",
+    "static/media/coffee_A0_Path_4_pattern@2x_cut2.png": "/Mp3Player/static/media/coffee_A0_Path_4_pattern@2x_cut2.aedcb32f.png",
+    "static/media/embody_A0_Rectangle_50_pattern@2x.png": "/Mp3Player/static/media/embody_A0_Rectangle_50_pattern@2x.0298b563.png",
+    "static/media/song-a.jpg": "/Mp3Player/static/media/song-a.18a702e6.jpg",
+    "static/media/song-b.jpg": "/Mp3Player/static/media/song-b.104df9cf.jpg",
+    "static/media/song-c.jpg": "/Mp3Player/static/media/song-c.c04c0482.jpg"
+  }
+}
