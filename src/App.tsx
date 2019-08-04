@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { css as _css } from 'styled-components';
+import MobileDetect from 'mobile-detect';
 
 import { playList as defaultPlayList } from './PlayList';
 
@@ -10,6 +11,10 @@ import uploadImgSrc from './assets/imgs/upload.png';
 import MobileMask from './components/MobileMask/MobileMask';
 import Slider from './components/Slider/Slider';
 import Player from './components/Player/Player';
+import Ad from './components/Ad';
+
+const defaultMd = new MobileDetect(window.navigator.userAgent);
+const defaultIsMobile = !!defaultMd.mobile();
 
 type PlayListType = typeof defaultPlayList;
 
@@ -17,17 +22,35 @@ interface ImgSrc {
   imgSrc: string;
 }
 
-const Container = styled.div`
+interface IsMobile {
+  isMobile: boolean;
+}
+
+const Container = styled.div<IsMobile>`
   position: relative;
-  width: 375px;
-  height: 812px;
-  width: 100%;
-  height: 100%;
   background: black;
   max-height: 100%;
   max-width: 100%;
   margin: 0 auto;
   overflow-x: hidden;
+  ${props => {
+    if (props.isMobile) {
+      return _css`
+        width: 100%;
+        height: 100%;
+      `;
+    } else {
+      return _css`
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -187.5px;
+        margin-top: -406px;
+        width: 375px;
+        height: 812px;
+      `;
+    }
+  }}
 `;
 
 const BackgroundMain = styled.div<ImgSrc>`
@@ -143,6 +166,8 @@ const CircleBtn = styled.div`
 `;
 
 const App: React.FC = () => {
+  const [showAd, setShowAd] = useState(false);
+  const [isMobile, setIsMobile] = useState(defaultIsMobile);
   const [playList, setPlayList] = useState(Array.from(defaultPlayList));
   const [loop, setLopp] = useState(false);
   const [randomPlay, setRandomPlay] = useState(false);
@@ -151,10 +176,28 @@ const App: React.FC = () => {
   const songImgList = React.useMemo(() => playList.map(list => list.imgSrc), [
     playList
   ]);
+  const showAdTest = React.useCallback(() => {
+    const num = Math.round(Math.random() * 100);
+    if (num > 90) {
+      setShowAd(true);
+    }
+  }, [setShowAd]);
+
+  useEffect(() => {
+    function resize() {
+      const md = new MobileDetect(window.navigator.userAgent);
+      const newIsMobile = !!md.mobile();
+      setIsMobile(newIsMobile);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    return () => window.removeEventListener('resize', resize);
+  }, []);
 
   function setNewSongIndex(index: number) {
     if (index >= 0 && index < playList.length) {
       setSelectSongIndex(index);
+      showAdTest();
     }
   }
 
@@ -165,6 +208,7 @@ const App: React.FC = () => {
     } else if (loop) {
       setSelectSongIndex(0);
     }
+    showAdTest();
   }
 
   function toPrevSong() {
@@ -174,6 +218,7 @@ const App: React.FC = () => {
     } else if (loop) {
       setSelectSongIndex(playList.length - 1);
     }
+    showAdTest();
   }
 
   function toggleLoop() {
@@ -214,8 +259,12 @@ const App: React.FC = () => {
     }
   }
 
+  function closeAd() {
+    setShowAd(false);
+  }
+
   return (
-    <Container>
+    <Container isMobile={isMobile}>
       <BackgroundMain imgSrc={playList[selectSongIndex].imgSrc} />
       <BackgroundTop />
       <MobileMask />
@@ -258,6 +307,7 @@ const App: React.FC = () => {
           toggleRandomPlay={toggleRandomPlay}
         />
       </Content>
+      {showAd && <Ad onClickApplyBtn={closeAd} onClickCloseBtn={closeAd} />}
     </Container>
   );
 };

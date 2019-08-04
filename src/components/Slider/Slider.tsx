@@ -26,14 +26,20 @@ function useSliderBoxSize(wrappperRef: React.RefObject<HTMLDivElement>) {
     const { clientHeight, clientWidth } = wrapper;
     const newSize = Math.min(clientHeight, clientWidth - 95);
     setSize(newSize);
-    // console.log({ newSize });
   }, [setSize, wrappperRef]);
 
   React.useEffect(() => {
-    window.addEventListener('resize', updateSize);
-    updateSize();
+    let key: number | undefined = undefined;
+    const resize = () => {
+      clearTimeout(key);
+      key = setTimeout(updateSize, 100);
+    };
+
+    window.addEventListener('resize', resize);
+    resize();
     return () => {
       window.removeEventListener('resize', updateSize);
+      clearTimeout(key);
     };
   }, [updateSize]);
 
