@@ -1,8 +1,11 @@
 # F2E2019 - MP3 Player
 
-<div>
+<b>
   <a style="font-size:25px; cursor: default;" target="_blank" href="https://cxc421.github.io/Mp3Player/">Demo</a>
-</div>
+</b>
+
+
+
 
 此專案是參加六角學院的 <a href="https://challenge.thef2e.com/">F2E Challenge</a> 所做的，參考的設計稿連結<a href="https://challenge.thef2e.com/user/2043?schedule=3228#works-3228">在此</a>。
 
@@ -11,8 +14,7 @@
   * ( 拖動圖片 ) 切換下一首 / 切換上一首
   * 拖動音樂時間軸
   * 暫停/開始切換
-  * <span style="text-decoration:line-through">音量控制</span>
-  * 單曲重複播放 / 隨機播放 / 重複播放
+  * 隨機播放 / 重複播放
  > 廣告機制
   * 隨機在音樂結束切換時，顯示佔板廣告，引導訂閱
 
