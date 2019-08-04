@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Mp3Player/static/css/main.d31f2474.chunk.css",
-    "main.js": "/Mp3Player/static/js/main.619382f4.chunk.js",
-    "main.js.map": "/Mp3Player/static/js/main.619382f4.chunk.js.map",
+    "main.js": "/Mp3Player/static/js/main.0b4525a4.chunk.js",
+    "main.js.map": "/Mp3Player/static/js/main.0b4525a4.chunk.js.map",
     "runtime~main.js": "/Mp3Player/static/js/runtime~main.ce50c9f3.js",
     "runtime~main.js.map": "/Mp3Player/static/js/runtime~main.ce50c9f3.js.map",
     "static/js/2.170e971d.chunk.js": "/Mp3Player/static/js/2.170e971d.chunk.js",
     "static/js/2.170e971d.chunk.js.map": "/Mp3Player/static/js/2.170e971d.chunk.js.map",
     "index.html": "/Mp3Player/index.html",
-    "precache-manifest.7651cab3b9b0fc8889dffc8963997f7c.js": "/Mp3Player/precache-manifest.7651cab3b9b0fc8889dffc8963997f7c.js",
+    "precache-manifest.57fc4942deb8eadc43e977cb08521aeb.js": "/Mp3Player/precache-manifest.57fc4942deb8eadc43e977cb08521aeb.js",
     "service-worker.js": "/Mp3Player/service-worker.js",
     "static/css/main.d31f2474.chunk.css.map": "/Mp3Player/static/css/main.d31f2474.chunk.css.map",
     "static/media/Embody - Dreamin (ft. Camden Cox).mp3": "/Mp3Player/static/media/Embody - Dreamin (ft. Camden Cox).abc0b1c0.mp3",
