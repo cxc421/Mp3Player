@@ -3,9 +3,6 @@ import styled from 'styled-components';
 
 import { playList as defaultPlayList } from './PlayList';
 
-// import songImgSrc_1 from './assets/imgs/Jonas_A0_Rectangle_52_pattern@2x_cut.png';
-// import songImgSrc_2 from './assets/imgs/embody_A0_Rectangle_50_pattern@2x.png';
-// import songImgSrc_3 from './assets/imgs/coffee_A0_Path_4_pattern@2x_cut2.png';
 import heartImgSrc from './assets/imgs/heart.png';
 import manuAddImgSrc from './assets/imgs/manu_add.png';
 import uploadImgSrc from './assets/imgs/upload.png';
@@ -202,8 +199,8 @@ const App: React.FC = () => {
       // set new playlsit & update songIndex
       setPlayList(newPlayList);
       setSelectSongIndex(0);
-      console.log('Now is random:');
-      console.log(newPlayList);
+      // console.log('Now is random:');
+      // console.log(newPlayList);
     } else {
       const newPlayList = Array.from(defaultPlayList);
       const curSong = playList[selectSongIndex];
@@ -211,9 +208,9 @@ const App: React.FC = () => {
       // set new playlsit & update songIndex
       setPlayList(newPlayList);
       setSelectSongIndex(newIndex);
-      console.log('Now is normal playlsit');
-      console.log(newPlayList);
-      console.log({ newIndex });
+      // console.log('Now is normal playlsit');
+      // console.log(newPlayList);
+      // console.log({ newIndex });
     }
   }
 

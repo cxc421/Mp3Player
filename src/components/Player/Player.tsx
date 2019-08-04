@@ -88,6 +88,7 @@ const Player: React.FC<PlayerProps> = ({
   toggleRandomPlay
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [startAnimating, setStartAnimating] = useState(false);
   const [playIfDurationChange, setPlayIfDurationChange] = useState(false);
   const [status, setStatus] = useState(PlayerStatus.Pause);
   const [curSec, setCurSec] = useState(0);
@@ -111,6 +112,7 @@ const Player: React.FC<PlayerProps> = ({
     if (audio.paused) {
       audio.play();
       setPlayIfDurationChange(true);
+      setStartAnimating(true);
     } else {
       audio.pause();
       setPlayIfDurationChange(false);
@@ -162,7 +164,7 @@ const Player: React.FC<PlayerProps> = ({
         onEnded={onAudionEnded}
       />
       <AnlyzerArea>
-        <AnlyzerGraph />
+        <AnlyzerGraph audioRef={audioRef} startAnimating={startAnimating} />
       </AnlyzerArea>
       <Bar
         style={{ marginTop: 40 }}
